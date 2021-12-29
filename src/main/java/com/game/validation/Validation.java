@@ -19,8 +19,8 @@ public class Validation {
 
     public static void nullDataInserted(Player player) {
         if (player.getName() == null || player.getTitle() == null || player.getRace() == null ||
-            player.getProfession() == null || player.getExperience() == null || player.getBirthday() == null ||
-            player.getBanned() == null)
+                player.getProfession() == null || player.getExperience() == null || player.getBirthday() == null ||
+                player.getBanned() == null)
             throw new ValidationException();
     }
 
@@ -69,7 +69,7 @@ public class Validation {
         } catch (Exception e) {
             throw new ValidationException();
         }
-     }
+    }
 
     public static void checkProfession(String s) {
         try {

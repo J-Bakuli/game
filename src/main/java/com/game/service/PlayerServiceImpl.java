@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class PlayerServiceImpl implements PlayerService{
+public class PlayerServiceImpl implements PlayerService {
     private PlayerRepository playerRepository;
 
     public PlayerServiceImpl(PlayerRepository playerRepository) {

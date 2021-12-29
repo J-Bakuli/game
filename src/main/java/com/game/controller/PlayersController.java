@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/rest/players")
-    public class PlayersController {
+public class PlayersController {
 
     private final PlayerService playerService;
     private EntityManagerFactory entityManagerFactory;
@@ -30,30 +30,34 @@ import java.util.List;
         this.playerService = playerService;
     }
 
-    /** 1 Get all players */
+    /**
+     * 1 Get all players
+     */
     @GetMapping()
     public ResponseEntity<List<Player>> listPlayers(@RequestParam(value = "name", required = false) String name,
-                                               @RequestParam(value = "title", required = false) String title,
-                                               @RequestParam(value = "race", required = false) Race race,
-                                               @RequestParam(value = "profession", required = false) Profession profession,
-                                               @RequestParam(value = "after", required = false) Long after,
-                                               @RequestParam(value = "before", required = false) Long before,
-                                               @RequestParam(value = "banned", required = false) Boolean banned,
-                                               @RequestParam(value = "minExperience", required = false) Integer minExperience,
-                                               @RequestParam(value = "maxExperience", required = false) Integer maxExperience,
-                                               @RequestParam(value = "minLevel", required = false) Integer minLevel,
-                                               @RequestParam(value = "maxLevel", required = false) Integer maxLevel,
-                                               @RequestParam(value = "order", required = false, defaultValue = "ID") PlayerOrder order,
-                                               @RequestParam(value = "pageNumber", required = false, defaultValue = "0") Integer pageNumber,
-                                               @RequestParam(value = "pageSize", required = false, defaultValue = "3") Integer pageSize,
-                                               PlayerSpecification playerSpecification) {
+                                                    @RequestParam(value = "title", required = false) String title,
+                                                    @RequestParam(value = "race", required = false) Race race,
+                                                    @RequestParam(value = "profession", required = false) Profession profession,
+                                                    @RequestParam(value = "after", required = false) Long after,
+                                                    @RequestParam(value = "before", required = false) Long before,
+                                                    @RequestParam(value = "banned", required = false) Boolean banned,
+                                                    @RequestParam(value = "minExperience", required = false) Integer minExperience,
+                                                    @RequestParam(value = "maxExperience", required = false) Integer maxExperience,
+                                                    @RequestParam(value = "minLevel", required = false) Integer minLevel,
+                                                    @RequestParam(value = "maxLevel", required = false) Integer maxLevel,
+                                                    @RequestParam(value = "order", required = false, defaultValue = "ID") PlayerOrder order,
+                                                    @RequestParam(value = "pageNumber", required = false, defaultValue = "0") Integer pageNumber,
+                                                    @RequestParam(value = "pageSize", required = false, defaultValue = "3") Integer pageSize,
+                                                    PlayerSpecification playerSpecification) {
         Pageable page = PageRequest.of(pageNumber, pageSize, Sort.by("id").ascending());
         return new ResponseEntity<>(playerService.listPlayers(setSpec(name, title, race, profession, after, before, banned,
-                                                                      minExperience, maxExperience, minLevel, maxLevel,
-                                                                      playerSpecification), page).getContent(), HttpStatus.OK);
+                minExperience, maxExperience, minLevel, maxLevel,
+                playerSpecification), page).getContent(), HttpStatus.OK);
     }
 
-    /** 2 Create player */
+    /**
+     * 2 Create player
+     */
     @PostMapping()
     public ResponseEntity<Player> createPlayer(@RequestBody Player player) {
         Validation.canBeCreated(player);
@@ -61,7 +65,9 @@ import java.util.List;
         return new ResponseEntity<>(player, HttpStatus.OK);
     }
 
-    /** 3 Delete player by id */
+    /**
+     * 3 Delete player by id
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Player> deletePlayer(@PathVariable("id") String id) {
         Validation.checkId(id);
@@ -74,7 +80,9 @@ import java.util.List;
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    /** 4 Get player by id */
+    /**
+     * 4 Get player by id
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Player> getPlayer(@PathVariable("id") String id) {
         Validation.checkId(id);
@@ -87,7 +95,9 @@ import java.util.List;
         return new ResponseEntity<>(player, HttpStatus.OK);
     }
 
-    /**5 Update player */
+    /**
+     * 5 Update player
+     */
     @PostMapping("/{id}")
     public ResponseEntity<Player> updatePlayer(@PathVariable("id") String id,
                                                @RequestBody(required = false) Player updatedPlayer) {
@@ -111,7 +121,9 @@ import java.util.List;
         }
     }
 
-    /** 6 Count players */
+    /**
+     * 6 Count players
+     */
     @GetMapping("/count")
     public ResponseEntity<Integer> getPlayersCount(@RequestParam(value = "name", required = false) String name,
                                                    @RequestParam(value = "title", required = false) String title,
@@ -129,25 +141,47 @@ import java.util.List;
                                                    @RequestParam(value = "pageSize", required = false, defaultValue = "3") Integer pageSize,
                                                    PlayerSpecification playerSpecification) {
         Pageable page = PageRequest.of(pageNumber, pageSize, Sort.by("id").ascending());
-        return new ResponseEntity<>((int)playerService.listPlayers(setSpec(name, title, race, profession, after, before, banned,
-                                                                      minExperience, maxExperience, minLevel, maxLevel,
-                                                                      playerSpecification), page).getTotalElements(), HttpStatus.OK);
+        return new ResponseEntity<>((int) playerService.listPlayers(setSpec(name, title, race, profession, after, before, banned,
+                minExperience, maxExperience, minLevel, maxLevel,
+                playerSpecification), page).getTotalElements(), HttpStatus.OK);
     }
 
     private PlayerSpecification setSpec(String name, String title, Race race, Profession profession, Long after,
                                         Long before, Boolean banned, Integer minExperience, Integer maxExperience,
                                         Integer minLevel, Integer maxLevel, PlayerSpecification playerSpecification) {
-        if (name != null) playerSpecification.setName(name);
-        if (title != null) playerSpecification.setTitle(title);
-        if (race != null) playerSpecification.setRace(race);
-        if (profession != null) playerSpecification.setProfession(profession);
-        if (after != null) playerSpecification.setAfter(after);
-        if (before != null) playerSpecification.setBefore(before);
-        if (banned != null) playerSpecification.setBanned(banned);
-        if (minLevel != null) playerSpecification.setMinLevel(minLevel);
-        if (maxLevel != null) playerSpecification.setMaxLevel(maxLevel);
-        if (minExperience != null) playerSpecification.setMinExperience(minExperience);
-        if (maxExperience != null) playerSpecification.setMaxExperience(maxExperience);
+        if (name != null) {
+            playerSpecification.setName(name);
+        }
+        if (title != null) {
+            playerSpecification.setTitle(title);
+        }
+        if (race != null) {
+            playerSpecification.setRace(race);
+        }
+        if (profession != null) {
+            playerSpecification.setProfession(profession);
+        }
+        if (after != null) {
+            playerSpecification.setAfter(after);
+        }
+        if (before != null) {
+            playerSpecification.setBefore(before);
+        }
+        if (banned != null) {
+            playerSpecification.setBanned(banned);
+        }
+        if (minLevel != null) {
+            playerSpecification.setMinLevel(minLevel);
+        }
+        if (maxLevel != null) {
+            playerSpecification.setMaxLevel(maxLevel);
+        }
+        if (minExperience != null) {
+            playerSpecification.setMinExperience(minExperience);
+        }
+        if (maxExperience != null) {
+            playerSpecification.setMaxExperience(maxExperience);
+        }
         return playerSpecification;
     }
 }

@@ -30,7 +30,8 @@ public class Player {
     @Column(name = "banned")
     private Boolean banned;
 
-    public Player() {}
+    public Player() {
+    }
 
     public String getId() {
         return id;
@@ -40,31 +41,41 @@ public class Player {
         this.id = id;
     }
 
-    public String getName() {return name;}
+    public String getName() {
+        return name;
+    }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getTitle() {return title;}
+    public String getTitle() {
+        return title;
+    }
 
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public Race getRace() {return race;}
+    public Race getRace() {
+        return race;
+    }
 
     public void setRace(Race race) {
         this.race = race;
     }
 
-    public Profession getProfession() {return profession;}
+    public Profession getProfession() {
+        return profession;
+    }
 
     public void setProfession(Profession profession) {
         this.profession = profession;
     }
 
-    public Integer getExperience() {return experience;}
+    public Integer getExperience() {
+        return experience;
+    }
 
     public void setExperience(Integer experience) {
         this.experience = experience;
@@ -86,16 +97,29 @@ public class Player {
         this.untilNextLevel = untilNextLevel;
     }
 
-    public Date getBirthday() {return birthday;}
+    public Date getBirthday() {
+        return birthday;
+    }
 
-    public void setBirthday(Date birthday) {this.birthday = birthday;}
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
 
-    public Boolean getBanned() {return banned;}
+    public Boolean getBanned() {
+        return banned;
+    }
 
-    public void setBanned(Boolean banned) {this.banned = banned;}
+    public void setBanned(Boolean banned) {
+        this.banned = banned;
+    }
 
-    public int currentLevel() {return (int) (Math.sqrt(2500 + 200 * experience) - 50)/100;}
-    public int nextLevel() {return (int) (50 * (currentLevel() + 1) * (currentLevel() + 2) - experience);}
+    public int currentLevel() {
+        return (int) (Math.sqrt(2500 + 200 * experience) - 50) / 100;
+    }
+
+    public int nextLevel() {
+        return (int) (50 * (currentLevel() + 1) * (currentLevel() + 2) - experience);
+    }
 
     @Override
     public String toString() {

@@ -6,7 +6,6 @@ public enum PlayerOrder {
     EXPERIENCE("experience"),
     BIRTHDAY("birthday"),
     LEVEL("level");
-
     private final String fieldName;
 
     PlayerOrder(String fieldName) {

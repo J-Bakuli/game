@@ -54,13 +54,21 @@ public class PlayerSpecification implements Specification<Player> {
         this.profession = profession;
     }
 
-    public Long getAfter() {return after;}
+    public Long getAfter() {
+        return after;
+    }
 
-    public void setAfter(Long after) {this.after = after;}
+    public void setAfter(Long after) {
+        this.after = after;
+    }
 
-    public Long getBefore() {return before;}
+    public Long getBefore() {
+        return before;
+    }
 
-    public void setBefore(Long before) {this.before = before;}
+    public void setBefore(Long before) {
+        this.before = before;
+    }
 
     public Boolean getBanned() {
         return banned;
@@ -114,43 +122,40 @@ public class PlayerSpecification implements Specification<Player> {
 
     @Override
     public Predicate toPredicate(Root<Player> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-
         ArrayList<Predicate> predicates = new ArrayList<>();
-
-        if(name != null) {
+        if (name != null) {
             predicates.add(cb.like(cb.lower(root.get("name")), "%" + name + "%"));
         }
-        if(title != null) {
+        if (title != null) {
             predicates.add(cb.like(cb.lower(root.get("title")), "%" + title + "%"));
         }
-        if(race != null) {
+        if (race != null) {
             predicates.add(cb.equal(root.<Race>get(("race")), race));
         }
-        if(profession != null) {
+        if (profession != null) {
             predicates.add(cb.equal(root.<Profession>get(("profession")), profession));
         }
-        if(before != null) {
+        if (before != null) {
             predicates.add(cb.lessThanOrEqualTo(root.get("birthday"), new Date(before)));
         }
-        if(after != null) {
+        if (after != null) {
             predicates.add(cb.greaterThanOrEqualTo(root.get("birthday"), new Date(after)));
         }
-        if(banned != null) {
+        if (banned != null) {
             predicates.add(cb.equal(root.get("banned"), banned));
         }
-        if(minExperience != null) {
+        if (minExperience != null) {
             predicates.add(cb.greaterThanOrEqualTo(root.get("experience"), minExperience));
         }
-        if(maxExperience != null) {
+        if (maxExperience != null) {
             predicates.add(cb.lessThanOrEqualTo(root.get("experience"), maxExperience));
         }
-        if(minLevel != null) {
+        if (minLevel != null) {
             predicates.add(cb.greaterThanOrEqualTo(root.get("level"), minLevel));
         }
-        if(maxLevel != null) {
+        if (maxLevel != null) {
             predicates.add(cb.lessThanOrEqualTo(root.get("level"), maxLevel));
         }
-
         return predicates.size() <= 0 ? null : cb.and(predicates.toArray(new Predicate[predicates.size()]));
     }
 }
