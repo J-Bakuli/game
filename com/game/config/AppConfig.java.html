@@ -1,0 +1,110 @@
+<html>
+<head>
+<title>AppConfig.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+AppConfig.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.game.config</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">org.springframework.context.annotation.Bean</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">org.springframework.context.annotation.ComponentScan</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">org.springframework.context.annotation.Configuration</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">org.springframework.context.annotation.Profile</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">org.springframework.data.jpa.repository.config.EnableJpaRepositories</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">org.springframework.jdbc.core.JdbcTemplate</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">org.springframework.jdbc.datasource.DriverManagerDataSource</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">org.springframework.orm.jpa.JpaTransactionManager</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">org.springframework.orm.jpa.JpaVendorAdapter</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">org.springframework.transaction.PlatformTransactionManager</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">org.springframework.transaction.annotation.EnableTransactionManagement</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">javax.persistence.EntityManagerFactory</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javax.sql.DataSource</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.Properties</span><span class="s0">;</span>
+
+<span class="s0">import static </span><span class="s1">org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.H2</span><span class="s0">;</span>
+
+<span class="s1">@Configuration</span>
+<span class="s1">@EnableTransactionManagement</span>
+<span class="s1">@ComponentScan(</span><span class="s2">&quot;com.game&quot;</span><span class="s1">)</span>
+<span class="s1">@EnableJpaRepositories(basePackages = </span><span class="s2">&quot;com.game.repository&quot;</span><span class="s1">)</span>
+<span class="s0">public class </span><span class="s1">AppConfig {</span>
+
+    <span class="s1">@Bean</span>
+    <span class="s0">public </span><span class="s1">LocalContainerEntityManagerFactoryBean entityManagerFactory() {</span>
+        <span class="s1">LocalContainerEntityManagerFactoryBean em = </span><span class="s0">new </span><span class="s1">LocalContainerEntityManagerFactoryBean()</span><span class="s0">;</span>
+        <span class="s1">em.setDataSource(dataSource())</span><span class="s0">;</span>
+        <span class="s1">em.setPackagesToScan(</span><span class="s2">&quot;com.game.entity&quot;</span><span class="s1">)</span><span class="s0">;</span>
+
+        <span class="s1">JpaVendorAdapter vendorAdapter = </span><span class="s0">new </span><span class="s1">HibernateJpaVendorAdapter()</span><span class="s0">;</span>
+        <span class="s1">em.setJpaVendorAdapter(vendorAdapter)</span><span class="s0">;</span>
+        <span class="s1">em.setJpaProperties(additionalProperties())</span><span class="s0">;</span>
+
+        <span class="s0">return </span><span class="s1">em</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Profile(</span><span class="s2">&quot;prod&quot;</span><span class="s1">)</span>
+    <span class="s1">@Bean</span>
+    <span class="s0">public </span><span class="s1">DataSource dataSource() {</span>
+        <span class="s1">DriverManagerDataSource dataSource = </span><span class="s0">new </span><span class="s1">DriverManagerDataSource()</span><span class="s0">;</span>
+        <span class="s1">dataSource.setDriverClassName(</span><span class="s2">&quot;com.mysql.cj.jdbc.Driver&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">dataSource.setUrl(</span><span class="s2">&quot;jdbc:mysql://localhost:3306/rpg?serverTimezone=UTC&amp;characterEncoding=UTF-8&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">dataSource.setUsername(</span><span class="s2">&quot;root&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">dataSource.setPassword(</span><span class="s2">&quot;root&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s0">return </span><span class="s1">dataSource</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Profile(</span><span class="s2">&quot;dev&quot;</span><span class="s1">)</span>
+    <span class="s1">@Bean(name = </span><span class="s2">&quot;dataSource&quot;</span><span class="s1">)</span>
+    <span class="s0">public </span><span class="s1">DataSource dataSourceForTests() {</span>
+
+        <span class="s0">return new </span><span class="s1">EmbeddedDatabaseBuilder()</span>
+                <span class="s1">.generateUniqueName(</span><span class="s0">true</span><span class="s1">)</span>
+                <span class="s1">.setType(H2)</span>
+                <span class="s1">.setScriptEncoding(</span><span class="s2">&quot;UTF-8&quot;</span><span class="s1">)</span>
+                <span class="s1">.ignoreFailedDrops(</span><span class="s0">true</span><span class="s1">)</span>
+                <span class="s1">.addScript(</span><span class="s2">&quot;test.sql&quot;</span><span class="s1">)</span>
+                <span class="s1">.build()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Bean</span>
+    <span class="s0">public </span><span class="s1">PlatformTransactionManager transactionManager(EntityManagerFactory emf) {</span>
+        <span class="s1">JpaTransactionManager transactionManager = </span><span class="s0">new </span><span class="s1">JpaTransactionManager()</span><span class="s0">;</span>
+        <span class="s1">transactionManager.setEntityManagerFactory(emf)</span><span class="s0">;</span>
+
+        <span class="s0">return </span><span class="s1">transactionManager</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Bean</span>
+    <span class="s0">public </span><span class="s1">PersistenceExceptionTranslationPostProcessor exceptionTranslation() {</span>
+        <span class="s0">return new </span><span class="s1">PersistenceExceptionTranslationPostProcessor()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private </span><span class="s1">Properties additionalProperties() {</span>
+        <span class="s1">Properties properties = </span><span class="s0">new </span><span class="s1">Properties()</span><span class="s0">;</span>
+        <span class="s1">properties.setProperty(</span><span class="s2">&quot;hibernate.dialect&quot;</span><span class="s0">, </span><span class="s2">&quot;org.hibernate.dialect.MySQL5Dialect&quot;</span><span class="s1">)</span><span class="s0">;</span>
+
+        <span class="s0">return </span><span class="s1">properties</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Bean</span>
+    <span class="s0">public </span><span class="s1">JdbcTemplate jdbcTemplate() {</span>
+        <span class="s0">return new </span><span class="s1">JdbcTemplate(dataSource())</span><span class="s0">;</span>
+    <span class="s1">}</span>
+<span class="s1">}</span></pre>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<html>
+<head>
+<title>MyWebAppInit.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MyWebAppInit.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.game.config</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">javax.servlet.ServletContext</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javax.servlet.ServletException</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">MyWebAppInit </span><span class="s0">extends </span><span class="s1">AbstractAnnotationConfigDispatcherServletInitializer {</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onStartup(ServletContext servletContext) </span><span class="s0">throws </span><span class="s1">ServletException {</span>
+        <span class="s0">super</span><span class="s1">.onStartup(servletContext)</span><span class="s0">;</span>
+        <span class="s1">servletContext.setInitParameter(</span><span class="s2">&quot;spring.profiles.active&quot;</span><span class="s0">, </span><span class="s2">&quot;prod&quot;</span><span class="s1">)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">protected </span><span class="s1">Class&lt;?&gt;[] getRootConfigClasses() {</span>
+        <span class="s0">return new </span><span class="s1">Class[]{AppConfig.</span><span class="s0">class</span><span class="s1">}</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">protected </span><span class="s1">Class&lt;?&gt;[] getServletConfigClasses() {</span>
+        <span class="s0">return new </span><span class="s1">Class[]{WebConfig.</span><span class="s0">class</span><span class="s1">}</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">protected </span><span class="s1">String[] getServletMappings() {</span>
+        <span class="s0">return new </span><span class="s1">String[]{</span><span class="s2">&quot;/&quot;</span><span class="s1">}</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+<span class="s1">}</span></pre>
+</body>
+</html>
